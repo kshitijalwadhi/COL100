@@ -1,7 +1,3 @@
-fun factorial(n)
-    int res
-    while(n!=1) {
-        res = res *n
-        n = n-1
-    }
-    return res;
+fun fact_iter(m,f,i)=
+    if (i=m) then f
+    else fact_iter(m,(f*(i+1)),i+1);
