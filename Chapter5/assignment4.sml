@@ -1,6 +1,6 @@
-fun accumulator(x,a,b,f,succ,oper,iden,c) = 
+fun accumulator(x,a,b,f,succ,oper,iden) = 
   if (a>b) then iden
-  else oper(f(x,a),accumulator(x,succ(a),b,f,succ,oper,iden,c));
+  else oper(f(x,a),accumulator(x,succ(a),b,f,succ,oper,iden));
 
 fun expsum(x,n) = 
     let
@@ -15,7 +15,7 @@ fun expsum(x,n) =
         fun term(x,n) = real(exp(x,n))/real(factorial(n))
         fun next(n) = n+1
     in
-      accumulator(x,0,n,term,next,op+,0.0,0)
+      accumulator(x,0,n,term,next,op+,0.0)
     end;
 
 fun perfect(n)=
@@ -25,15 +25,22 @@ fun perfect(n)=
         if(n mod i =0) then i
         else 0
     in
-        accumulator(n,1,n div 2,term,next,op+,0,0)=n
+        accumulator(n,1,n div 2,term,next,op+,0)=n
     end
+
+fun accumulator2(f,x,n,succ1,succ2,oper,iden) =
+  if n=0 then iden
+  else oper(f(x,n),accumulator2(f,succ1(x),succ2(n),succ1,succ2,oper,iden))
 
 fun fastpow(x,n) =
     let
-      fun term(x)=
-      fun next(n) = 
+      fun term(x)= x*x
+      fun next(n) = n div 2
+      fun f(x,y) = 
+        if (y mod 2 =0) then 1
+        else x
     in
-      accumulator(x,n,n,term,next,op*,1,n)
+      accumulator2(f,x,n,term,next,op*,1)
     end 
 
 fun doublesummation(a,b,c,d,f,succ) =
