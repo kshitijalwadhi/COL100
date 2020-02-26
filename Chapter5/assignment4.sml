@@ -20,6 +20,16 @@ fun expsum(x,n) =
       accumulator(x,0,n,term,next,op+,0.0)
     end;
 
+fun expsumbetter(x,n)=
+    let
+      fun term(x,n) = 
+        if n=0 then 1.0
+        else term(x,n-1) *real(x)/real(n);
+      fun next(n) =n+1;
+    in
+      accumulator(x,0,n,term,next,op+,0.0)
+    end
+
 fun perfect(n)=
     let
       fun next(n) = n+1
@@ -30,24 +40,25 @@ fun perfect(n)=
         accumulator(n,1,n div 2,term,next,op+,0)=n
     end
 
-(* Cant use the same accumulator for fastpow, hence defining a new one:  *)
 
-fun accumulator2(f,x,n,succ1,succ2,oper,iden) =
-  if n=0 then iden
-  else oper(f(x,n),accumulator2(f,succ1(x),succ2(n),succ1,succ2,oper,iden))
+(* Double summation using sum accumulator *)
 
-fun fastpow(x,n) =
+fun sum (c,d,f,succ,a)=
+  if c>d then 0
+  else f(a,c) + sum(succ(c),d,f,succ,a);
+
+fun doublesum(a,b,c,d,succ,f) =
     let
-      fun term(x)= x*x
-      fun next(n) = n div 2
-      fun f(x,y) = 
-        if (y mod 2 =0) then 1
-        else x
+      val temp =c;
+      fun doublesum2(a,b,c,d,succ,f) =
+        if a>b then 0
+        else sum(c,d, f ,succ,a) + doublesum2(succ(a),b,temp,d,succ,f);
     in
-      accumulator2(f,x,n,term,next,op*,1)
-    end 
+      doublesum2(a,b,c,d,succ,f)
+    end
 
-(* Double summation accumulator: *)
+
+(* Double summation aliter: *)
 
 fun doublesummation(a,b,c,d,f,succ) =
     let val temp =c;
@@ -58,16 +69,7 @@ fun doublesummation(a,b,c,d,f,succ) =
     in 
     doublesummation2(a,b,c,d,f,succ)
     end;
-
-(* Function to check working of double summation below: *)
-
-(* fun sum2(a,b,c,d) =
-    let
-      fun term(x) =x
-      fun next(x)=x+1
-    in
-      doublesummation(a,b,c,d,term,next)
-    end; *)
+   
 
 
 (* Abstract Data type *)
@@ -123,3 +125,67 @@ struct
     end;
   
 end;
+
+
+fun accumulator2(f,x,n,succ1,succ2,oper,iden) =
+  if n=0 then iden
+  else oper(f(x,n),accumulator2(f,succ1(x),succ2(n),succ1,succ2,oper,iden))
+
+fun fastpow(x,n) =
+    let
+      fun term(x)= x*x
+      fun next(n) = n div 2
+      fun f(x,y) = 
+        if (y mod 2 =0) then 1
+        else x
+    in
+      accumulator2(f,x,n,term,next,op*,1)
+    end;
+
+fun multiter(a,b)=
+  let
+    fun iter(a,b,f)=
+      if b=0 then f
+      else if b mod 2 =0 then iter(a*2,b div 2,f)
+      else iter(a*2,b div 2,f +a)
+  in
+    iter(a,b,0)
+  end    
+
+
+    
+    
+  
+
+
+(* fun mult(a,b) =
+  let
+    fun succ1 (x)=x
+    fun succ2(n) =
+      if (n mod 2 =0) then n/2
+      else n-1;
+    fun f(x,y) = 
+      if y mod 2 =0 then x
+      else x;
+  in
+    accumulator2(f,a,b,succ1,succ2,op+,0)
+  end *)
+
+
+(* Function to check working of double summation below: *)
+
+(* fun powersum(a,b,c,d)=
+  let
+    fun next(x) =x+1;
+    fun term(x,y) = fastpow(x,y); 
+  in
+    doublesummation(a,b,c,d,term,next)
+  end; *)
+
+(* fun powersum(a,b,c,d)=
+  let
+    fun next(x) =x+1;
+    fun term(x,y) = fastpow(x,y); 
+  in
+    doublesum(a,b,c,d,next,term)
+  end; *)
