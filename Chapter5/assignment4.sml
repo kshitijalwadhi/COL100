@@ -4,6 +4,8 @@ fun accumulator(x,a,b,f,succ,oper,iden) =
   if (a>b) then iden
   else oper(f(x,a),accumulator(x,succ(a),b,f,succ,oper,iden));
 
+(* Code for calculating e^x using series *)
+
 fun expsum(x,n) = 
     let
         fun factorial(n) = 
@@ -20,6 +22,8 @@ fun expsum(x,n) =
       accumulator(x,0,n,term,next,op+,0.0)
     end;
 
+(* Better code: *)
+
 fun expsumbetter(x,n)=
     let
       fun term(x,n) = 
@@ -29,6 +33,8 @@ fun expsumbetter(x,n)=
     in
       accumulator(x,0,n,term,next,op+,0.0)
     end
+
+(* Code for checking perfect number *)
 
 fun perfect(n)=
     let
@@ -58,7 +64,7 @@ fun doublesum(a,b,c,d,succ,f) =
     end
 
 
-(* Double summation aliter: *)
+(* Double summation aliter: (without using sum accumulator) *)
 
 fun doublesummation(a,b,c,d,f,succ) =
     let val temp =c;
@@ -91,6 +97,12 @@ struct
   fun make_interval(p:real,q:real):interval=
     if p>q then raise WrongIntervals
     else construct(p,q);
+  fun min(a:real,b:real) =
+    if a>b then b
+    else a;
+  fun max(a:real,b:real)=
+    if a>b then a
+    else b;
   fun lower_bound(construct(x,_)) =x;
   fun upper_bound(construct(_,y)) =y;
   fun intadd(a,b)=
@@ -102,34 +114,50 @@ struct
     end;
   fun intsubtract(a,b) =
     let
-      val x = lower_bound(a) - lower_bound(b);
-      val y = upper_bound(a) - upper_bound(b);
+      val x = lower_bound(a) - upper_bound(b);
+      val y = upper_bound(a) - lower_bound(b);
     in
       if (x>y) then raise WrongIntervals
       else make_interval(x,y)
     end;
   fun intmult(a,b)=
     let
-      val x = lower_bound(a) * lower_bound(b);
-      val y= upper_bound(a) * upper_bound(b);
+      val a1 = lower_bound(a);
+      val a2 = upper_bound(a);
+      val b1 = lower_bound(b);
+      val b2 = upper_bound(b);
+
+      val x = min( min(a1*b1,a1*b2),min(a2*b1,a2*b2) );
+      val y = max( max(a1*b1,a1*b2),max(a2*b1,a2*b2) );
     in
       make_interval(x,y)
     end;
   fun intdiv(a,b)=
     let
-      val x = lower_bound(a) *((1.0)/lower_bound(b))
-      val y = upper_bound(a) *((1.0)/upper_bound(b))
-    in
-      if (x>y) then raise WrongIntervals
-      else make_interval(x,y)
+      fun reciproc(a:interval)=
+          let
+            val a1=lower_bound(a);
+            val a2 = upper_bound(a);
+          in
+            if a1>0.0 orelse a2<0.0 then make_interval(1.0/a2,1.0/a1)
+            else raise WrongIntervals
+          end;
+    in 
+      intmult(a,reciproc(b))
     end;
   
 end;
 
+(* Minor Questions using accumulator *)
 
-fun accumulator2(f,x,n,succ1,succ2,oper,iden) =
+(* The new accumulator: *)
+
+fun accumulator2(f,x,n,term,next,oper,iden) =
   if n=0 then iden
-  else oper(f(x,n),accumulator2(f,succ1(x),succ2(n),succ1,succ2,oper,iden))
+  else oper(f(x,n),accumulator2(f,term(x),next(n),term,next,oper,iden))
+
+
+(* Fast power *)
 
 fun fastpow(x,n) =
     let
@@ -142,7 +170,43 @@ fun fastpow(x,n) =
       accumulator2(f,x,n,term,next,op*,1)
     end;
 
-fun multiter(a,b)=
+(* Multiply in O(log b) *)
+
+fun mult(a,b)=
+  let
+    fun term(x)= 2*x;
+    fun next(n) = n div 2;
+    fun f(a,b) = 
+      if (b mod 2 =1) then a else 0;
+  in
+    accumulator2(f,a,b,term,next,op+,0)
+  end;
+    
+(* Divide *)
+exception DivideByZero;
+
+fun divide(x,y)=
+    let
+      fun next(n) = n div 2;
+      fun oper(l,(m,n))=
+        if (l mod 2 =1) then 
+            if (2*n+1 <y) then (2*m,2*n+1)
+            else (2*m +1, 2*n +1-y)
+        else if (2*n<y) then (2*m,2*n)
+        else (2*m+1,2*n-y);
+      fun f(x,n)=n;
+      fun term(x)=x;
+    in
+    if y=0 then raise DivideByZero
+    else
+      accumulator2(f,1,x,term,next,oper,(0,0))
+    end
+
+
+
+
+
+(* fun multiter(a,b)=
   let
     fun iter(a,b,f)=
       if b=0 then f
@@ -150,26 +214,7 @@ fun multiter(a,b)=
       else iter(a*2,b div 2,f +a)
   in
     iter(a,b,0)
-  end    
-
-
-    
-    
-  
-
-
-(* fun mult(a,b) =
-  let
-    fun succ1 (x)=x
-    fun succ2(n) =
-      if (n mod 2 =0) then n/2
-      else n-1;
-    fun f(x,y) = 
-      if y mod 2 =0 then x
-      else x;
-  in
-    accumulator2(f,a,b,succ1,succ2,op+,0)
-  end *)
+  end     *)
 
 
 (* Function to check working of double summation below: *)
