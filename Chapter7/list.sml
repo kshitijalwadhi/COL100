@@ -51,6 +51,7 @@ fun reviter(ls)=
         | rev_iter(x::ls,rev) = rev_iter(ls,x::rev)
     in
       rev_iter(ls,[])
+      
     end;
 
 fun merge([],l2) = l2
@@ -86,4 +87,18 @@ fun mergesort([]) = []
           val(l1,l2) = split(ls)
         in
           merge(mergesort(l1),mergesort(l2))
+        end;
+
+fun filter pred [] =[]
+    | filter pred (x::xs) = 
+        if pred(x) then x::(filter pred xs)
+        else (filter pred xs);
+
+
+fun qsort([]) = []
+    | qsort(x::xs) =
+        let
+          fun comp opr x y = opr(y,x):bool
+        in
+          append(qsort(filter (comp op<= x) xs ), x::qsort(filter (comp op> x) xs))
         end;

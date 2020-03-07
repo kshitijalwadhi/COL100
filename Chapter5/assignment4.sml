@@ -1,3 +1,6 @@
+(* Assignment 4, KSHITIJ ALWADHI, 2019EE30577, Group 30 *)
+
+
 (* Accumulator for expsum and perfect numbers *)
 
 fun accumulator(x,a,b,f,succ,oper,iden) = 
@@ -76,6 +79,23 @@ fun doublesummation(a,b,c,d,f,succ) =
     doublesummation2(a,b,c,d,f,succ)
     end;
    
+(* Function to check working of double summation below: *)
+
+(* fun powersum(a,b,c,d)=
+  let
+    fun next(x) =x+1;
+    fun term(x,y) = fastpow(x,y); 
+  in
+    doublesummation(a,b,c,d,term,next)
+  end; *)
+
+(* fun powersum(a,b,c,d)=
+  let
+    fun next(x) =x+1;
+    fun term(x,y) = fastpow(x,y); 
+  in
+    doublesum(a,b,c,d,next,term)
+  end; *)
 
 
 (* Abstract Data type *)
@@ -144,8 +164,7 @@ struct
           end;
     in 
       intmult(a,reciproc(b))
-    end;
-  
+    end; 
 end;
 
 (* Minor Questions using accumulator *)
@@ -200,10 +219,7 @@ fun divide(x,y)=
     if y=0 then raise DivideByZero
     else
       accumulator2(f,1,x,term,next,oper,(0,0))
-    end
-
-
-
+    end;
 
 
 (* fun multiter(a,b)=
@@ -215,22 +231,3 @@ fun divide(x,y)=
   in
     iter(a,b,0)
   end     *)
-
-
-(* Function to check working of double summation below: *)
-
-(* fun powersum(a,b,c,d)=
-  let
-    fun next(x) =x+1;
-    fun term(x,y) = fastpow(x,y); 
-  in
-    doublesummation(a,b,c,d,term,next)
-  end; *)
-
-(* fun powersum(a,b,c,d)=
-  let
-    fun next(x) =x+1;
-    fun term(x,y) = fastpow(x,y); 
-  in
-    doublesum(a,b,c,d,next,term)
-  end; *)
