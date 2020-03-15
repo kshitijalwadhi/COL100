@@ -7,8 +7,9 @@ fun ways(a)=
         else if n=4 then 25
         else 50
 
+      fun iter(a,ans,n)=
         
 
     in
-      body
+      iter(a,1,5)
     end
