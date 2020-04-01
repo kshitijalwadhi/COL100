@@ -21,7 +21,19 @@ def removeduplicates(arr, n):
 # and count is the number of unique elements in the original array.
 
 
-# Time Complexity:
+# Code for input and output to test program
+
+arr = [2, 2, 4, 8, 8, 23, 37, 37, 42]
+n = len(arr)
+newN = removeduplicates(arr, n)
+
+for i in range(n):
+    print(arr[i], end=' ')
+print()
+print("New length is: ", newN)
+
+
+# Time Complexity Analysis:
 
 # for i in range(1, n):
 #     if (arr[i] != arr[i-1]):
@@ -33,15 +45,3 @@ def removeduplicates(arr, n):
 # T(n) = T(n-1) + 1
 
 # Therefore Time Complexity is: O(N)
-
-
-# Code for input and output to test program
-
-arr = [2, 2, 4, 8, 8, 23, 37, 37, 42]
-n = len(arr)
-newN = removeduplicates(arr, n)
-
-for i in range(n):
-    print(arr[i], end=' ')
-print()
-print("New length is: ", newN)
