@@ -34,3 +34,23 @@ print(lis(arr))
 
 # So we can safely assume that in the worst case scenario,
 # The time Complexity will be O(n^2)
+
+
+# Proof/Comments:
+
+# Let arr[0...n-1] be the input array,
+# and L(i) be the length of LIS ending ith index such that,
+# arr[i] is the last element of the LIS.
+# Then, L(i) can be recursively written as:
+# L(i) = 1 + max(L(j)) where 0<j<i and arr[j] < arr[i].
+# In plain recursive approach, the algorithm would be to calculate
+# L(j) whenever we move to a new i.
+# But here, we have improved the efficiency by storing the LIS at every previous index
+# which can be used in further executions.
+# What every loop is doing is clear from the invariants.
+# If trying to prove inductively,
+# Suppose by IH, LIS[i-1] is the length of LIS when taking first i-1 elements.
+# Now when the ith element is taken into account,
+# if it is greater than the last element into account,
+# then we add another element into the LIS,
+# and LIS[i] = LIS[i-1] +1 .

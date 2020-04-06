@@ -39,3 +39,13 @@ print(kth(arr, 3))
 # Making the best case Time complexity: O(n)
 # Whereas when the problem space is decreased by 1 in every trial (much like the worst case scenario for quick sort)
 # The worst case scenario Time complexity will be: O(n^2)
+
+
+# Comments:
+
+# This algorithm follows from the proof of Q2 and also the invariants
+# show what is going on in every loop. In the previous question,
+# we didn't know where the partition would be placed but we did know
+# what element would be present about the partitioning index.
+# Here we know the partitioning index (k) and we are required to find the
+# element that is present at the partition.

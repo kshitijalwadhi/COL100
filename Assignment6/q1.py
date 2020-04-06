@@ -45,3 +45,15 @@ print("New length is: ", newN)
 # T(n) = T(n-1) + 1
 
 # Therefore Time Complexity is: O(N)
+
+
+# Proof/Comments:
+
+# We are comparing adjacent elements in the first 'for' loop,
+# when the a new element is found, we insert it into the new array (temp),
+# whereas when an element which is being repeated is found,
+# it gets skipped as theres an if condition which is comparing equality.
+# This method is working here as the array we are given is sorted and
+# the equal elements occur together.
+# Also we are mainting a count of number of repeated elements,
+# so that we can append 0's at the end.

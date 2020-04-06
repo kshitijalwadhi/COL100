@@ -44,3 +44,17 @@ print('Partitioning index is: ' + str(p+1))
 # T(N) = T(N-2) +1  -> Recursive Relation
 # T(N) = N/2
 # From this we can get that the time complexity is O(N).
+
+
+# Proof/Comments:
+
+# When the first two while loops are executed,
+# We reach two elements which are at the wrong sides of the partition that is required,
+# The smaller element is on the right side and the larger element is on the left.
+# Now while (i<j):
+# We swap the two elements by creating a temporary variable.
+# after swapping, we increase the value of i by 1 and decrease j by 1.
+# and another 2 loops are executed to find the next two wrongly placed elements
+# Then the loop is executed again to swap the elements and so on.
+# This goes on till i<j.
+# In the end, we equate the partition with the iterator j.
