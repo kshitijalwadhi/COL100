@@ -1,5 +1,5 @@
-# assert: n>0 and 1<=k<=n
 def kth(arr, k):
+    # assert: arr[1..n] is established with n>0 and 1<=k<=n
     l = 0
     u = len(arr)-1
     # INV: all elements in arr[1...l-1] <= all elements in arr[u+1....n] and l<= k+1 and k-1>=u
@@ -13,9 +13,7 @@ def kth(arr, k):
                 i += 1
             while (x < arr[j]):
                 j -= 1
-            temp = arr[i]
-            arr[i] = arr[j]
-            arr[j] = temp
+            arr[i], arr[j] = arr[j], arr[i]
             i += 1
             j -= 1
         if(j < k-1):

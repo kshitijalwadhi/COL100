@@ -1,5 +1,5 @@
-# assert: n>0
 def lis(arr):
+    # assert: arr[1..n] is establised with n>0
     n = len(arr)
     lis = [0] * n
     lis[0] = 1

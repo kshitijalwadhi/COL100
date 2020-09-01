@@ -1,5 +1,5 @@
-# assert: n>0
 def partition(arr, x):
+    # assert: arr[1..n] is established with n>0 and x is also established.
     n = len(arr)
     i = 0
     j = n-1
@@ -10,9 +10,7 @@ def partition(arr, x):
     # INV: after ith iteration, all elements in arr[1...i-1]<=x and arr[j+1...n]>x
     # and i<=n and j>=0 and i<=j+1
     while(i < j):
-        temp = arr[i]
-        arr[i] = arr[j]
-        arr[j] = temp
+        arr[i], arr[j] = arr[j], arr[i]
         i = i+1
         j = j-1
         while(i < j and arr[i] <= x):
@@ -21,18 +19,18 @@ def partition(arr, x):
             j -= 1
     p = j
     return p
-# assert: arr[1...i-1]<=x and arr[j+1...n]>x and i>j
+# assert: arr[1...p+1]<=x and arr[p+2...n]>x
 # and p is the partitioning index
 
 
-arr = [3, 1, 6]
+arr = [28, 26, 25, 11, 16, 12, 24, 29, 6, 10]
 n = len(arr)
-x = 6
+x = 17
 p = partition(arr, x)
 
 for i in range(0, n):
     print(arr[i], end=' ')
-print('\n')
+print()
 print('Partitioning index is: ' + str(p+1))
 
 
@@ -52,7 +50,7 @@ print('Partitioning index is: ' + str(p+1))
 # We reach two elements which are at the wrong sides of the partition that is required,
 # The smaller element is on the right side and the larger element is on the left.
 # Now while (i<j):
-# We swap the two elements by creating a temporary variable.
+# We swap the two elements,
 # after swapping, we increase the value of i by 1 and decrease j by 1.
 # and another 2 loops are executed to find the next two wrongly placed elements
 # Then the loop is executed again to swap the elements and so on.
