@@ -1,0 +1,12 @@
+Q1. Develop a higher order function and show its use in computing
+ fastpower (from Assign1), perfect numbers(from Assign1), and e^x up
+ to some n-th term.
+
+Q2. Problem 6 (pg 105 of the Lecture Notes). 
+
+Q3. Problem 2 (pg 125 of the Lecture Notes).
+
+Q4. Develop a higher-order function and use it to compute
+a) x^n in O(log n) steps
+b) multiply a*b in O(log b) steps (Q1 part 3 of Minor 1)
+c) dividing an integer x >= 0 by another interger y > 0 to determine q and r such that x = q*y + r, 0 <= r  < y, in O(log x ) steps (Q3 of Minor 1)

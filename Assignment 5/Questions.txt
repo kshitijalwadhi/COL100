@@ -1,0 +1,12 @@
+EDIT: Use CPU timer instead of real timer to better capture the time spent in computation and ignore the time spent in printing the output.
+EDIT: Added helper file for timer and data generation.
+
+- Develop a SML function for Merge sort and establish its correctness.
+
+- Compare run times of Mergesort and Insertion sort on large data-sets by plotting
+your results (Time vs listSize).  We will provide the functions for
+timer and data generation.
+
+- Develop SML function for adding, subtracting and multiplying two integers whose
+digits are stored in lists. For example: integer number 123 is stored as
+3::2::1. Establish the correctness of your solutions.
