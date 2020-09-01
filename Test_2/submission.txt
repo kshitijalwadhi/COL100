@@ -1,0 +1,202 @@
+Honor Code
+
+I hereby confirm that I am the sole author of the work and that I've written all the solutions entirely on my own.
+I have not taken any help from online source nor have I discussed these solutions with anyone.
+
+Kshitij Alwadhi
+2019EE30577
+Group 30
+
+All the codes have been coded in python.
+
+
+#############################################
+
+# Question 1 (BONUS) :
+
+
+#############################################
+
+def addNumbers(num1, num2):
+    # assert: 2 numbers represented in the form of arrays num1, num2 having same number of digits established.
+
+    n = len(num1)
+
+    sumArr = [0]*(n+1)
+
+    cur_i = n-1
+    cur_k = n
+
+    carry = 0
+    temp = 0
+
+    # INV: temp carries the sum of the digits mod 10, carry takes the carry forward to the next digits addition.
+    # after each iteration, the cur_K index of sumArr is updated
+
+    while(cur_i >= 0):
+        temp = num1[cur_i] + num2[cur_i] + carry
+        sumArr[cur_k] = temp % 10
+        carry = temp//10
+        cur_i -= 1
+        cur_k -= 1
+
+    if(carry == 1):
+        sumArr[0] = 1
+
+    # assert: sumArr is the array representation of the sum of the two numbers n1 and n2
+    return sumArr
+
+
+def mulNumbers(num1, num2):
+    # assert: 2 numbers represented in the form of arrays num1, num2 having same number of digits established.
+
+    n = len(num1)
+
+    ans = []
+    cur_j = n-1
+    numZero = 0
+
+    # comment: this loop is for iterating over the digits of the second number whose digits will be one by one multiplied with the first number
+    for p in range(cur_j, -1, -1):
+
+        mulArr = []
+        cur_i = n-1
+        carry = 0
+        temp = 0
+
+        # INV: temp carries the multiplication of the digits mod 10, carry takes the carry forward to the next digits multiplication.
+        # after each iteration, temp mod 10 is appended to the array.
+
+        while(cur_i >= 0):
+            temp = num1[cur_i] * num2[cur_j] + carry
+            mulArr.append(temp % 10)
+            carry = temp//10
+            cur_i -= 1
+
+        mulArr.append(carry)
+        mulArr.reverse()
+        if(numZero == 0):
+            ans = mulArr
+
+        # comment: appending the zeros at the end
+        if(numZero > 0):
+            zeroArr = [0]*numZero
+            mulArr.extend(zeroArr)
+
+            lenMul = len(mulArr)
+            lenAns = len(ans)
+
+            # commment: making sure the length of arrays is same so that first function can be used.
+            if(lenMul < lenAns):
+                mulArr.reverse()
+                forwardZeros = [0]*(lenAns-lenMul)
+                mulArr.extend(forwardZeros)
+                mulArr.reverse()
+
+            elif(lenMul > lenAns):
+                ans.reverse()
+                forwardZeros = [0] * (lenMul-lenAns)
+                ans.extend(forwardZeros)
+                ans.reverse()
+
+            ans = addNumbers(ans, mulArr)
+        cur_j -= 1
+        numZero += 1
+
+    # assert: ans is the array representation of the multiplication of the two numbers n1 and n2
+    return ans
+
+
+# a = [3, 9]
+# b = [6, 0]
+
+# print(addNumbers(a, b))
+
+# p = [9, 3, 7]
+# q = [1, 2, 0]
+
+# print(mulNumbers(p, q))
+
+
+
+#############################################
+
+#QUESTION 2 :
+
+#############################################
+
+
+def groupNumbers(arr):
+    # assert: arr[1..n] of size N is establised having elements as 1, 2, 3 only
+
+    N = len(arr)
+
+    cur_ini = 0
+    cur_end = N-1
+    i = 0
+
+    # INV: In every iteration,
+    # if the element is equal to 1, it is pushed/swapped to the left side of the array(position maintained by cur_ini)
+    # if the element is equal to 3, it is pushed/swapped to the right side of the array(position maintained by cur_end)
+    # if the element is equal to 2, it is kept as it is.
+
+    while i <= cur_end:
+        if(arr[i] == 1):
+            arr[i], arr[cur_ini] = arr[cur_ini], arr[i]
+            cur_ini += 1
+            i += 1
+        elif(arr[i] == 3):
+            arr[i], arr[cur_end] = arr[cur_end], arr[i]
+            cur_end -= 1
+        else:
+            i += 1
+
+    # assert: arr[1..n] has numbers of same type grouped together
+    return arr
+
+
+# arr = [1, 3, 1, 1, 2, 3, 2, 1, 1, 3, 2]
+
+# newarr = groupNumbers(arr)
+# print(newarr)
+
+
+#############################################
+
+# QUESTION 3 :
+
+
+#############################################
+
+def numsDivBy235(N):
+    # assert: N>0 is established
+
+    dp = [0]*N
+    i_2 = i_3 = i_5 = 0
+    dp[0] = 1
+
+    # assert: dp[0..p-1] has the p numbers which are divisible by no prime other than 2,3,5
+
+    # INV: (i_2, i_3, i_5 are cursors to the powers of 2, 3, 5 last used) and
+    # (dp[i] stores the minimum number obtained by incrementing the power of 2,3,5 by 1 in previous numbers of the array)
+
+    for p in range(1, N):
+        dp[p] = min(dp[i_2]*2, dp[i_3]*3, dp[i_5]*5)
+        if(dp[p] == dp[i_2] * 2):
+            i_2 += 1
+        if(dp[p] == dp[i_3] * 3):
+            i_3 += 1
+        if(dp[p] == dp[i_5] * 5):
+            i_5 += 1
+
+    # dp[1..N] is an array containing N numbers divisible by no prime other than 2,3,5
+    return dp
+
+# TIME COMPLEXITY ANALYSIS:
+# The for loop is incrementing the value of p by 1 after every iteration.
+# This is a Dynamic Programming(DP) problem. We are using the previously evaluated numbers for generating new numbers.
+# T(N) = T(N-1) + 1  <- Recursive Relation
+# Therefore, time complexity is of the order O(N)
+
+
+# print(numsDivBy235(20))
