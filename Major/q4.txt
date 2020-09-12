@@ -1,0 +1,26 @@
+Honor Code
+
+I hereby confirm that I am the sole author of the work and that I've written all the solutions entirely on my own.
+I have not taken any help from online source nor have I discussed these solutions with anyone.
+
+Kshitij Alwadhi
+2019EE30577
+Group 30
+
+Answer 4
+
+Part A:
+1) Yes floating points are finite. Had this not been the case we would have needed infinite storage in computers to store the infinite numbers. This was designed purposefully so that we can restrict to finite storage.
+2) No floating point numbers are not dense as density would decrease as number of digits remain the same but as we keep on increasing the magnitude, the difference between the numbers in floating point would keep on decreasing due to less digits available.
+3) Yes, hey are commutative as a* + b* = fl(a(1+d1) + b(1+d2)) while b* + a* is the same. Similar analogy for multiplication. fl(a(1+d1) * b(1+d2))
+4) No, they are not associative as when we compute a + (b + c) we get fl(a(1+d1) + (b+c)(1+d2)) while (a + b) + c will give fl((a + b)(1 + d3) + c(1+d4)). Where d1,d2 are not equal to d3,d4.
+5) No, we can not deal Calculus with floating points as when we are dealing with very finite values, there will be a lot of deviations and the error would shoot up. The percentage errors will be very high.
+
+Part B:
+On solving the first set of equations, we get
+x = 1400.1 and y = 3499/5
+whereas the second set gives,
+x = 1750 and y = 3499/4
+
+No its not stable as a difference of 0.0001 in coefficient of y gives a lot of change to our answer. If we used floating point arithmetic then error would be very large for solving this equation set.
+Hence, the problem is not stable (UNSTABLE).
