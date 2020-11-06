@@ -88,12 +88,12 @@ def mulNumbers(num1, num2):
     return ans
 
 
-# a = [3, 9]
-# b = [6, 0]
+a = [3, 3, 3]
+b = [7, 6, 7]
 
-# print(addNumbers(a, b))
+print(addNumbers(a, b))
 
-# p = [9, 3, 7]
-# q = [1, 2, 0]
+p = [2, 3]
+q = [8, 9]
 
-# print(mulNumbers(p, q))
+print(mulNumbers(p, q))
